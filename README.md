@@ -296,12 +296,6 @@ The application will be available at:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👨‍💻 Author
-
-**Your Name**
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
-
 ## 🙏 Acknowledgments
 
 - [React.js](https://reactjs.org/) - Frontend framework
