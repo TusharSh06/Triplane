@@ -12,6 +12,7 @@ import AddPackage from './pages/AddPackage';
 import AdminBookings from './pages/AdminBookings';
 import Packages from './pages/Packages';
 import './App.css';
+import './responsive.css';
 
 function App() {
   return (
