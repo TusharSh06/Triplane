@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import axios from 'axios';
+import { packageAPI } from '../services/api';
 import './AddPackage.css';
 
 const AddPackage = () => {
@@ -34,7 +34,7 @@ const AddPackage = () => {
 
   const fetchPackages = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/packages');
+      const response = await packageAPI.getAllPackages();
       setPackages(response.data);
       setLoading(false);
     } catch (error) {
@@ -136,12 +136,10 @@ const AddPackage = () => {
       }
 
       if (editingPackage) {
-        await axios.put(`http://localhost:5000/api/packages/${editingPackage._id}`, formDataToSend, {
-          headers,
+        await packageAPI.updatePackage(editingPackage._id, formDataToSend);
         });
       } else {
-        await axios.post('http://localhost:5000/api/packages', formDataToSend, {
-          headers,
+        await packageAPI.createPackage(formDataToSend);
         });
       }
       
@@ -191,8 +189,7 @@ const AddPackage = () => {
           headers['Authorization'] = `Bearer ${token}`;
         }
         
-        await axios.delete(`http://localhost:5000/api/packages/${id}`, {
-          headers,
+        await packageAPI.deletePackage(id);
         });
         fetchPackages();
       } catch (error) {

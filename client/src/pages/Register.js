@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import axios from 'axios';
+import { authAPI } from '../services/api';
 import './Register.css';
 
 const Register = () => {
@@ -23,7 +23,7 @@ const Register = () => {
   useEffect(() => {
     const checkAdminExists = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/auth/check-admin');
+        const response = await authAPI.checkAdmin();
         setAdminExists(response.data.adminExists);
       } catch (err) {
         console.error('Failed to check admin status:', err);
@@ -56,7 +56,7 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', {
+      const response = await authAPI.register({
         name: formData.name,
         email: formData.email,
         password: formData.password,

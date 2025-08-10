@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import axios from 'axios';
+import { authAPI } from '../services/api';
 import './Login.css';
 
 const Login = () => {
@@ -27,7 +27,7 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', formData);
+      const response = await authAPI.login(formData);
       login(response.data.token, response.data.user);
       navigate('/');
     } catch (err) {

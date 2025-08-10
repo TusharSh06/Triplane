@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import axios from 'axios';
+import { packageAPI, bookingAPI } from '../services/api';
 import './PackageDetails.css';
 
 const PackageDetails = () => {
@@ -27,7 +27,7 @@ const PackageDetails = () => {
 
   const fetchPackageDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/packages/${id}`);
+      const response = await packageAPI.getPackageById(id);
       setPackageData(response.data);
       // Set default duration
       setBookingForm(prev => ({
@@ -71,7 +71,7 @@ const PackageDetails = () => {
         specialRequests: bookingForm.specialRequests
       };
 
-      const response = await axios.post('http://localhost:5000/api/bookings', bookingData, {
+      const response = await bookingAPI.createBooking(bookingData);
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }

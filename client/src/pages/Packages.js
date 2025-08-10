@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { packageAPI } from '../services/api';
 import './Home.css';
 
 const Packages = () => {
@@ -11,7 +11,7 @@ const Packages = () => {
   useEffect(() => {
     const fetchPackages = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/packages');
+        const res = await packageAPI.getAllPackages();
         setPackages(res.data);
       } catch (err) {
         setError('Failed to load packages');

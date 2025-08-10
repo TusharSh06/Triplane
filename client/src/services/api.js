@@ -23,6 +23,9 @@ api.interceptors.request.use((config) => {
 export const authAPI = {
   login: (credentials) => api.post('/auth/login', credentials),
   register: (userData) => api.post('/auth/register', userData),
+  checkAdmin: () => api.get('/auth/check-admin'),
+  updateProfile: (userData) => api.put('/auth/profile', userData),
+  getProfile: () => api.get('/auth/profile'),
 };
 
 // Package Services
@@ -40,6 +43,7 @@ export const bookingAPI = {
   getUserBookings: () => api.get('/bookings/user'),
   getAllBookings: () => api.get('/bookings'),
   updateBookingStatus: (id, status) => api.put(`/bookings/${id}`, { status }),
+  updateBooking: (id, bookingData) => api.put(`/bookings/${id}`, bookingData),
 };
 
 // Upload Services
@@ -53,6 +57,11 @@ export const uploadAPI = {
       },
     });
   },
+};
+
+// Feedback Services
+export const feedbackAPI = {
+  submitFeedback: (feedbackData) => api.post('/feedback', feedbackData),
 };
 
 export default api;

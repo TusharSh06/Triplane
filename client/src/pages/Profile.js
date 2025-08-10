@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import axios from 'axios';
+import { bookingAPI, authAPI, uploadAPI } from '../services/api';
 import './Profile.css';
 
 const Profile = () => {
@@ -29,11 +29,7 @@ const Profile = () => {
 
   const fetchUserBookings = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/bookings/user', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
+      const response = await bookingAPI.getUserBookings();
       setBookings(response.data);
       setLoading(false);
     } catch (err) {
@@ -59,20 +55,11 @@ const Profile = () => {
 
     setUploading(true);
     try {
-      const response = await axios.post('http://localhost:5000/api/upload', formData, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+      const response = await uploadAPI.uploadImage(formData);
 
       // Update user profile with new photo URL
-      const updateResponse = await axios.put('http://localhost:5000/api/auth/profile', {
+      const updateResponse = await authAPI.updateProfile({
         profilePhoto: response.data.url
-      }, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
       });
 
       // Update context with new user data
@@ -129,13 +116,7 @@ const Profile = () => {
     if (!window.confirm('Are you sure you want to cancel this booking?')) return;
 
     try {
-      await axios.put(`http://localhost:5000/api/bookings/${bookingId}`, {
-        status: 'cancelled'
-      }, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
+      await bookingAPI.updateBookingStatus(bookingId, 'cancelled');
 
       fetchUserBookings();
       alert('Booking cancelled successfully!');

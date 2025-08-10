@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import axios from 'axios';
+import { bookingAPI } from '../services/api';
 import './AdminBookings.css';
 
 const AdminBookings = () => {
@@ -21,11 +21,7 @@ const AdminBookings = () => {
 
   const fetchAllBookings = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/bookings', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
+      const response = await bookingAPI.getAllBookings();
       setBookings(response.data);
       setLoading(false);
     } catch (err) {
@@ -37,13 +33,7 @@ const AdminBookings = () => {
   const updateBookingStatus = async (bookingId, status) => {
     try {
       setError(''); // Clear any previous errors
-      const response = await axios.put(`http://localhost:5000/api/bookings/${bookingId}`, {
-        status: status
-      }, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
+      const response = await bookingAPI.updateBookingStatus(bookingId, status);
       
       // Refresh the bookings list
       await fetchAllBookings();

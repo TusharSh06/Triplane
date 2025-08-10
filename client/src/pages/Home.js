@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { packageAPI, feedbackAPI } from '../services/api';
 import './Home.css';
 
 const Home = () => {
@@ -39,7 +39,7 @@ const Home = () => {
 
   const fetchPackages = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/packages');
+      const response = await packageAPI.getAllPackages();
       setPackages(response.data);
       setLoading(false);
     } catch (err) {
@@ -60,7 +60,7 @@ const Home = () => {
     setFeedbackLoading(true);
     
     try {
-      await axios.post('http://localhost:5000/api/feedback', feedbackForm);
+      await feedbackAPI.submitFeedback(feedbackForm);
       setFeedbackSuccess(true);
       setFeedbackForm({
         name: '',
