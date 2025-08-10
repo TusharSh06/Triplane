@@ -137,10 +137,8 @@ const AddPackage = () => {
 
       if (editingPackage) {
         await packageAPI.updatePackage(editingPackage._id, formDataToSend);
-        });
       } else {
         await packageAPI.createPackage(formDataToSend);
-        });
       }
       
       setFormData({
@@ -190,7 +188,6 @@ const AddPackage = () => {
         }
         
         await packageAPI.deletePackage(id);
-        });
         fetchPackages();
       } catch (error) {
         console.error('Error deleting package:', error);

@@ -91,11 +91,7 @@ const Profile = () => {
         updateData.newPassword = formData.newPassword;
       }
 
-      const response = await axios.put('http://localhost:5000/api/auth/profile', updateData, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
+      const response = await authAPI.updateProfile(updateData);
 
       login(localStorage.getItem('token'), response.data);
       setEditMode(false);

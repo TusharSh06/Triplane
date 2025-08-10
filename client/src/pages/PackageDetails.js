@@ -72,10 +72,6 @@ const PackageDetails = () => {
       };
 
       const response = await bookingAPI.createBooking(bookingData);
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
 
       alert('Booking created successfully!');
       navigate('/');
