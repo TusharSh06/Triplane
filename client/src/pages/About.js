@@ -7,7 +7,7 @@ const About = () => {
       {/* Hero Section */}
       <div className="about-hero">
         <div className="about-hero-content">
-          <h1>About Insta.Trip</h1>
+          <h1>About Triplane</h1>
           <p className="hero-subtitle">- instagrammable tours</p>
           <p className="hero-description">
             We are passionate about creating unforgettable travel experiences that not only take you to the most beautiful places in the world 
@@ -133,6 +133,11 @@ const About = () => {
                 With over 10 years of experience in travel photography, Alexandro knows how to capture 
                 the perfect moment. He's traveled to over 30 countries and has a keen eye for composition.
               </p>
+              <div className="member-social">
+                <a href="#" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Twitter"><i className="fab fa-twitter"></i></a>
+                <a href="#" aria-label="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
+              </div>
             </div>
             <div className="team-member">
               <div className="member-photo">
@@ -144,6 +149,11 @@ const About = () => {
                 Alicia ensures every detail of your journey is perfect. From booking the best hotels 
                 to arranging unique experiences, she makes sure your trip is seamless and memorable.
               </p>
+              <div className="member-social">
+                <a href="#" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Twitter"><i className="fab fa-twitter"></i></a>
+                <a href="#" aria-label="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
+              </div>
             </div>
             <div className="team-member">
               <div className="member-photo">
@@ -155,6 +165,11 @@ const About = () => {
                 Melissa curates our tour itineraries with an eye for the most photogenic locations. 
                 She researches every destination to find the perfect spots for Instagram-worthy content.
               </p>
+              <div className="member-social">
+                <a href="#" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Twitter"><i className="fab fa-twitter"></i></a>
+                <a href="#" aria-label="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
+              </div>
             </div>
           </div>
         </div>

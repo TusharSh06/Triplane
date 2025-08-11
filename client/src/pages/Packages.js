@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { packageAPI } from '../services/api';
-import './Home.css';
+import './Packages.css';
 
 const Packages = () => {
   const [packages, setPackages] = useState([]);
@@ -42,7 +42,8 @@ const Packages = () => {
   }
 
   return (
-    <div className="packages-section">
+    <div className="packages-page">
+      <div className="packages-section">
       <div className="packages-header">
         <h2>All Packages</h2>
         <p className="packages-subtitle">- explore everything in one place</p>
@@ -100,6 +101,7 @@ const Packages = () => {
           ))}
         </div>
       )}
+      </div>
     </div>
   );
 };

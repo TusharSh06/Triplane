@@ -118,56 +118,50 @@ const PackageDetails = () => {
   return (
     <div className="package-details-page">
       <div className="package-details-container">
-        {/* Package Info Section */}
-        <div className="package-info-section">
+        <div className="package-details-content">
           <div className="package-image-section">
-            <img src={packageData.image} alt={packageData.title} />
+            <img src={packageData.image} alt={packageData.title} className="package-image" />
             {packageData.featured && <div className="featured-badge">Featured</div>}
           </div>
           
-          <div className="package-content-section">
-            <div className="package-header">
-              <h1>{packageData.title}</h1>
-              <p className="package-location">
-                <i className="fas fa-map-marker-alt"></i>
-                {packageData.location}
-              </p>
-            </div>
+          <div className="package-info-section">
+            <h1 className="package-title">{packageData.title}</h1>
             
-            <div className="package-stats">
-              <div className="stat-item">
-                <i className="fas fa-clock"></i>
-                <span>Duration: {packageData.duration}</span>
-              </div>
-              <div className="stat-item">
-                <i className="fas fa-users"></i>
-                <span>Max Group: {packageData.maxGroupSize} people</span>
-              </div>
-              <div className="stat-item">
-                <i className="fas fa-mountain"></i>
-                <span>Difficulty: {packageData.difficulty}</span>
-              </div>
-            </div>
-
-            <div className="package-description">
-              <h3>Description</h3>
-              <p>{packageData.description}</p>
-            </div>
-
             <div className="package-price">
-              <h3>Price</h3>
-              <div className="price-amount">${packageData.price}</div>
-              <span className="price-per-person">per person</span>
+              from <span className="price-amount">${packageData.price}</span> per person
+            </div>
+
+            <p className="package-description">{packageData.description}</p>
+
+            <div className="package-details-grid">
+              <div className="detail-item">
+                <i className="fas fa-clock"></i>
+                <h4>Duration</h4>
+                <p>{packageData.duration}</p>
+              </div>
+              <div className="detail-item">
+                <i className="fas fa-users"></i>
+                <h4>Group Size</h4>
+                <p>Max {packageData.maxGroupSize} people</p>
+              </div>
+              <div className="detail-item">
+                <i className="fas fa-mountain"></i>
+                <h4>Difficulty</h4>
+                <p>{packageData.difficulty}</p>
+              </div>
+              <div className="detail-item">
+                <i className="fas fa-map-marker-alt"></i>
+                <h4>Location</h4>
+                <p>{packageData.location}</p>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Booking Section */}
         <div className="booking-section">
-          <div className="booking-card">
-            <h3>Book This Tour</h3>
-            <form onSubmit={handleBookingSubmit} className="booking-form">
-              <div className="form-row">
+          <h3 className="booking-title">Book This Tour</h3>
+          {bookingError && <div className="booking-error">{bookingError}</div>}
+          <form onSubmit={handleBookingSubmit} className="booking-form">
                 <div className="form-group">
                   <label htmlFor="numberOfPeople">Number of People</label>
                   <input
@@ -200,77 +194,60 @@ const PackageDetails = () => {
                     <option value={packageData.duration}>{packageData.duration} (Recommended)</option>
                   </select>
                 </div>
-              </div>
 
-              <div className="form-group">
-                <label htmlFor="bookingDate">Preferred Date</label>
-                <input
-                  type="date"
-                  id="bookingDate"
-                  name="bookingDate"
-                  value={bookingForm.bookingDate}
-                  onChange={handleBookingChange}
-                  required
-                  min={new Date().toISOString().split('T')[0]}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="specialRequests">Special Requests (Optional)</label>
-                <textarea
-                  id="specialRequests"
-                  name="specialRequests"
-                  value={bookingForm.specialRequests}
-                  onChange={handleBookingChange}
-                  rows="3"
-                  placeholder="Any special requirements or requests..."
-                />
-              </div>
-
-              <div className="booking-summary">
-                <div className="summary-item">
-                  <span>Price per person:</span>
-                  <span>${packageData.price}</span>
+                <div className="form-group">
+                  <label htmlFor="bookingDate">Preferred Date</label>
+                  <input
+                    type="date"
+                    id="bookingDate"
+                    name="bookingDate"
+                    value={bookingForm.bookingDate}
+                    onChange={handleBookingChange}
+                    required
+                    min={new Date().toISOString().split('T')[0]}
+                  />
                 </div>
-                <div className="summary-item">
-                  <span>Number of people:</span>
-                  <span>{bookingForm.numberOfPeople}</span>
-                </div>
-                <div className="summary-item">
-                  <span>Duration:</span>
-                  <span>{bookingForm.duration || packageData.duration}</span>
-                </div>
-                <div className="summary-item total">
-                  <span>Total Price:</span>
-                  <span>${packageData.price * bookingForm.numberOfPeople}</span>
-                </div>
-              </div>
 
-              {bookingError && (
-                <div className="error-message">{bookingError}</div>
-              )}
+                <div className="form-group">
+                  <label htmlFor="specialRequests">Special Requests (Optional)</label>
+                  <textarea
+                    id="specialRequests"
+                    name="specialRequests"
+                    value={bookingForm.specialRequests}
+                    onChange={handleBookingChange}
+                    rows="3"
+                    placeholder="Any special requirements or requests..."
+                  />
+                </div>
 
-              <button 
-                type="submit" 
-                className="btn-book"
-                disabled={bookingLoading}
-              >
-                {bookingLoading ? 'Processing...' : 'Book Now'}
-              </button>
+                <button 
+                  type="submit" 
+                  className="booking-btn"
+                  disabled={bookingLoading}
+                >
+                  {bookingLoading ? 'Processing...' : 'Book Now'}
+                </button>
 
-              {!isAuthenticated() && (
-                <p className="login-prompt">
-                  Please <button 
-                    type="button" 
-                    onClick={() => navigate('/login')}
-                    className="link-button"
-                  >
-                    login
-                  </button> to book this tour.
-                </p>
-              )}
-            </form>
-          </div>
+                {!isAuthenticated() && (
+                  <p style={{ textAlign: 'center', color: '#7f8c8d', marginTop: '15px', fontSize: '0.9rem' }}>
+                    Please <button 
+                      type="button" 
+                      onClick={() => navigate('/login')}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#ff6b6b',
+                        textDecoration: 'underline',
+                        cursor: 'pointer',
+                        fontWeight: '600',
+                        fontSize: '0.9rem'
+                      }}
+                    >
+                      login
+                    </button> to book this tour.
+                  </p>
+                )}
+          </form>
         </div>
       </div>
     </div>
