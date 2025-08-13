@@ -77,7 +77,7 @@
 
 .form-group label {
   font-weight: 600;
-  color: #2c3e50;
+  color: #000000;
   margin-bottom: 8px;
   font-size: 0.9rem;
 }
@@ -86,7 +86,7 @@
 .form-group select,
 .form-group textarea {
   padding: 12px 16px;
-  border: 2px solid #e1e8ed;
+  border: 2px solid #0c3653;
   border-radius: 10px;
   font-size: 1rem;
   transition: all 0.3s ease;
