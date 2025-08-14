@@ -125,13 +125,13 @@ const About = () => {
           <div className="team-grid">
             <div className="team-member">
               <div className="member-photo">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2070&auto=format&fit=crop" alt="Alexandro Rossa" />
+                <img src="https://images.unsplash.com/photo-1505628346881-b72b27e84530?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Tushar Sharma" />
               </div>
-              <h3>Alexandro Rossa</h3>
+              <h3>Tushar Sharma</h3>
               <p className="member-role">Lead Photographer</p>
               <p className="member-bio">
-                With over 10 years of experience in travel photography, Alexandro knows how to capture 
-                the perfect moment. He's traveled to over 30 countries and has a keen eye for composition.
+                With over 8 years of experience in travel photography, Tushar has an exceptional talent for capturing 
+                the perfect moment. His work has been featured in several travel magazines and he's passionate about teaching photography to our guests.
               </p>
               <div className="member-social">
                 <a href="#" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
@@ -141,13 +141,13 @@ const About = () => {
             </div>
             <div className="team-member">
               <div className="member-photo">
-                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?q=80&w=2070&auto=format&fit=crop" alt="Alicia Keish" />
+                <img src="https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGZ1bm55fGVufDB8fDB8fHww" alt="Rudraksh Singh" />
               </div>
-              <h3>Alicia Keish</h3>
+              <h3>Rudraksh Singh</h3>
               <p className="member-role">Travel Coordinator</p>
               <p className="member-bio">
-                Alicia ensures every detail of your journey is perfect. From booking the best hotels 
-                to arranging unique experiences, she makes sure your trip is seamless and memorable.
+                Rudraksh ensures every detail of your journey is perfect. With his extensive knowledge of global destinations, 
+                he crafts personalized itineraries that go beyond the ordinary, making each trip truly special.
               </p>
               <div className="member-social">
                 <a href="#" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
@@ -157,13 +157,47 @@ const About = () => {
             </div>
             <div className="team-member">
               <div className="member-photo">
-                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop" alt="Melissa Sol" />
+                <img src="https://wallpapers.com/images/high/funny-duck-pictures-p2xgp4wvt2fm7isd.webp" alt="Arun" />
               </div>
-              <h3>Melissa Sol</h3>
+              <h3>Arun</h3>
               <p className="member-role">Creative Director</p>
               <p className="member-bio">
-                Melissa curates our tour itineraries with an eye for the most photogenic locations. 
-                She researches every destination to find the perfect spots for Instagram-worthy content.
+                Arun curates our tour itineraries with an eye for the most photogenic locations. 
+                Her background in visual arts helps her design experiences that are both beautiful and memorable.
+              </p>
+              <div className="member-social">
+                <a href="#" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Twitter"><i className="fab fa-twitter"></i></a>
+                <a href="#" aria-label="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
+              </div>
+            </div>
+            
+            <div className="team-member">
+              <div className="member-photo">
+                <img src="https://plus.unsplash.com/premium_photo-1666278379770-440439b08656?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YW5pbWFsc3xlbnwwfHwwfHx8MA%3D%3D" alt="Tushar Kadian" />
+              </div>
+              <h3>Tushar Kadian</h3>
+              <p className="member-role">Operations Manager</p>
+              <p className="member-bio">
+                Tushar brings extensive experience in travel operations and customer service. 
+                He ensures that all our tours run smoothly and that every guest receives exceptional service.
+              </p>
+              <div className="member-social">
+                <a href="#" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Twitter"><i className="fab fa-twitter"></i></a>
+                <a href="#" aria-label="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
+              </div>
+            </div>
+
+            <div className="team-member">
+              <div className="member-photo">
+                <img src="https://media.istockphoto.com/id/143921954/photo/male-chimpanzee-in-business-clothes.webp?a=1&b=1&s=612x612&w=0&k=20&c=yhWCdS5Zl0QyeDWI-AF9TtJukmFCfqk6Y-SA7mVo2nE=" alt="Anirudh" />
+              </div>
+              <h3>Anirudh</h3>
+              <p className="member-role">Customer Experience Specialist</p>
+              <p className="member-bio">
+                Anirudh is dedicated to ensuring every guest has an unforgettable experience. 
+                With his friendly demeanor and attention to detail, he goes above and beyond to make every journey special.
               </p>
               <div className="member-social">
                 <a href="#" aria-label="Instagram"><i className="fab fa-instagram"></i></a>

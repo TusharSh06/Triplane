@@ -161,13 +161,13 @@
   border-radius: 8px;
   font-size: 1rem;
   transition: border-color 0.3s ease;
-  background: #f8f9fa;
+  /* background: #f8f9fa; */
 }
 
 .form-group input:focus {
   outline: none;
   border-color: #667eea;
-  background: white;
+  /* background: white; */
 }
 
 .password-section {
