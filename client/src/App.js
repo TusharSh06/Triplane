@@ -14,6 +14,8 @@ import Packages from './pages/Packages';
 import './App.css';
 import './responsive.css';
 
+import Footer from './components/Footer';
+
 function App() {
   return (
     <AuthProvider>
@@ -31,6 +33,7 @@ function App() {
             <Route path="/add-package" element={<AddPackage />} />
             <Route path="/admin-bookings" element={<AdminBookings />} />
           </Routes>
+          <Footer />
         </div>
       </Router>
     </AuthProvider>

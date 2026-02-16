@@ -1,12 +1,28 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import './Navigation.css';
 
 const Navigation = () => {
   const { user, isAuthenticated, isAdmin, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 20;
+      setScrolled(isScrolled);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Check if we are on the home page
+  const isHomePage = location.pathname === '/';
 
   const handleLogout = () => {
     logout();
@@ -15,8 +31,7 @@ const Navigation = () => {
   };
 
   const handleHomeClick = (e) => {
-    // If we're already on the home page, scroll to top
-    if (window.location.pathname === '/') {
+    if (location.pathname === '/') {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -68,10 +83,15 @@ const Navigation = () => {
     };
   }, [isMobileMenuOpen]);
 
+  // Always apply transparent/smokey style initially (overlay mode)
+  // It will become 'scrolled' (solid) when user scrolls down
+  const navbarClass = `navbar ${scrolled ? 'scrolled' : ''}`;
+
   return (
-    <nav className="navbar">
+    <nav className={navbarClass}>
       <div className="nav-container">
         <Link to="/" className="nav-logo" onClick={handleHomeClick}>
+          <i className="fas fa-plane-departure logo-icon"></i>
           <span className="logo-text">Triplane</span>
         </Link>
 
@@ -112,7 +132,7 @@ const Navigation = () => {
                 </>
               )}
               <div className="nav-user">
-                <span className="user-name">Hello, {user?.name}</span>
+                <span className="user-name">Hi, {user?.name?.split(' ')[0]}</span>
                 <button onClick={handleLogout} className="logout-btn">
                   Logout
                 </button>
@@ -120,10 +140,10 @@ const Navigation = () => {
             </>
           ) : (
             <>
-              <Link to="/login" className="nav-link" onClick={handleNavLinkClick}>
+              <Link to="/login" className="nav-link nav-btn-login" onClick={handleNavLinkClick}>
                 Login
               </Link>
-              <Link to="/register" className="nav-link" onClick={handleNavLinkClick}>
+              <Link to="/register" className="nav-link nav-btn-register" onClick={handleNavLinkClick}>
                 Register
               </Link>
             </>

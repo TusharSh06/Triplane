@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { authAPI } from '../services/api';
-import './Login.css';
+import './Auth.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -38,22 +38,32 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <div className="login-header">
-          <h2>Welcome Back</h2>
+    <div className="auth-full-screen-container">
+      <div className="auth-card">
+        <div className="auth-header">
+          <h2>WELCOME BACK</h2>
           <p>Sign in to your account</p>
         </div>
 
+        <button className="google-auth-btn" type="button">
+          <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" />
+          Sign in with Google
+        </button>
+
+        <div className="auth-divider">
+          <span>OR</span>
+        </div>
+
         {error && (
-          <div className="error-message">
-            {error}
+          <div className="auth-error">
+            <i className="fas fa-exclamation-circle"></i>
+            <span>{error}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="login-form">
+        <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">EMAIL</label>
             <input
               type="email"
               id="email"
@@ -66,7 +76,7 @@ const Login = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">PASSWORD</label>
             <input
               type="password"
               id="password"
@@ -80,17 +90,17 @@ const Login = () => {
 
           <button 
             type="submit" 
-            className="login-btn"
+            className="auth-btn"
             disabled={loading}
           >
-            {loading ? 'Signing in...' : 'Sign In'}
+            {loading ? <span className="loading-dots">SIGNING IN</span> : 'SIGN IN'}
           </button>
         </form>
 
-        <div className="login-footer">
+        <div className="auth-footer">
           <p>
             Don't have an account?{' '}
-            <Link to="/register" className="register-link">
+            <Link to="/register" className="auth-link">
               Sign up here
             </Link>
           </p>

@@ -8,6 +8,7 @@ const Profile = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [activeTab, setActiveTab] = useState('bookings');
   const [editMode, setEditMode] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [formData, setFormData] = useState({
@@ -19,13 +20,16 @@ const Profile = () => {
   });
 
   useEffect(() => {
+    if (user) {
+        setFormData(prev => ({ ...prev, name: user.name, email: user.email }));
+    }
     // Only fetch bookings for non-admin users
     if (!isAdmin()) {
       fetchUserBookings();
     } else {
       setLoading(false);
     }
-  }, [isAdmin]);
+  }, [isAdmin, user]);
 
   const fetchUserBookings = async () => {
     try {
@@ -113,7 +117,6 @@ const Profile = () => {
 
     try {
       await bookingAPI.updateBookingStatus(bookingId, 'cancelled');
-
       fetchUserBookings();
       alert('Booking cancelled successfully!');
     } catch (err) {
@@ -123,21 +126,11 @@ const Profile = () => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'confirmed': return '#28a745';
-      case 'pending': return '#ffc107';
-      case 'cancelled': return '#dc3545';
-      case 'completed': return '#17a2b8';
-      default: return '#6c757d';
-    }
-  };
-
-  const getStatusText = (status) => {
-    switch (status) {
-      case 'confirmed': return 'CONFIRMED';
-      case 'pending': return 'PENDING';
-      case 'cancelled': return 'CANCELLED';
-      case 'completed': return 'COMPLETED';
-      default: return status.toUpperCase();
+      case 'confirmed': return 'var(--success-color)';
+      case 'pending': return 'var(--warning-color)';
+      case 'cancelled': return 'var(--danger-color)';
+      case 'completed': return 'var(--info-color)';
+      default: return 'var(--text-light)';
     }
   };
 
@@ -152,19 +145,22 @@ const Profile = () => {
 
   return (
     <div className="profile-page">
-      <div className="container">
-        {/* Profile Header */}
-        <div className="profile-header">
-          <div className="profile-photo-section">
-            <div className="profile-photo">
+      {/* Cover Photo */}
+      <div className="profile-cover">
+        <div className="profile-cover-overlay"></div>
+      </div>
+
+      <div className="profile-container">
+        {/* Profile Header Card */}
+        <div className="profile-header-card">
+          <div className="profile-avatar-section">
+            <div className="profile-avatar">
               <img 
                 src={user?.profilePhoto || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=2070&auto=format&fit=crop'} 
                 alt={user?.name} 
               />
-              <div className="photo-upload">
-                <label htmlFor="photo-upload" className="upload-btn">
-                  <i className="fas fa-camera"></i>
-                </label>
+              <label htmlFor="photo-upload" className="avatar-upload-btn">
+                <i className="fas fa-camera"></i>
                 <input
                   id="photo-upload"
                   type="file"
@@ -172,216 +168,179 @@ const Profile = () => {
                   onChange={handlePhotoUpload}
                   style={{ display: 'none' }}
                 />
-                {uploading && <div className="upload-spinner"></div>}
-              </div>
+              </label>
+              {uploading && <div className="upload-spinner"></div>}
             </div>
             <div className="profile-info">
               <h1>{user?.name}</h1>
               <p className="user-email">{user?.email}</p>
-              <p className="user-role">Role: {user?.role}</p>
+              <div className="user-role-badge">{user?.role}</div>
             </div>
           </div>
-          <button 
-            className="edit-profile-btn"
-            onClick={() => setEditMode(!editMode)}
-          >
-            {editMode ? 'Cancel' : 'Edit Profile'}
-          </button>
+          <div className="profile-actions">
+            <button 
+              className={`action-btn ${editMode ? 'active' : ''}`}
+              onClick={() => setEditMode(!editMode)}
+            >
+              <i className="fas fa-edit"></i> {editMode ? 'Cancel Edit' : 'Edit Profile'}
+            </button>
+          </div>
         </div>
 
-        {/* Profile Form */}
+        {/* Edit Form Section */}
         {editMode && (
-          <div className="profile-form-section">
-            <h2>Edit Profile</h2>
+          <div className="profile-section edit-section animate-fade">
+             <div className="section-header">
+              <h2>Edit Profile</h2>
+            </div>
             <form onSubmit={handleProfileUpdate} className="profile-form">
-              <div className="form-group">
-                <label htmlFor="name">Full Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                />
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Full Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
               </div>
 
               <div className="password-section">
-                <h3>Change Password (Optional)</h3>
+                <h3>Change Password <span className="optional">(Optional)</span></h3>
                 <div className="form-group">
-                  <label htmlFor="currentPassword">Current Password</label>
+                  <label>Current Password</label>
                   <input
                     type="password"
-                    id="currentPassword"
                     name="currentPassword"
                     value={formData.currentPassword}
                     onChange={handleInputChange}
+                    placeholder="Required to set new password"
                   />
                 </div>
-
-                <div className="form-group">
-                  <label htmlFor="newPassword">New Password</label>
-                  <input
-                    type="password"
-                    id="newPassword"
-                    name="newPassword"
-                    value={formData.newPassword}
-                    onChange={handleInputChange}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="confirmPassword">Confirm New Password</label>
-                  <input
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleInputChange}
-                  />
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>New Password</label>
+                    <input
+                      type="password"
+                      name="newPassword"
+                      value={formData.newPassword}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Confirm New Password</label>
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleInputChange}
+                    />
+                  </div>
                 </div>
               </div>
 
               {error && <div className="error-message">{error}</div>}
 
-              <div className="form-actions">
-                <button type="submit" className="btn-save">
-                  Save Changes
-                </button>
-                <button 
-                  type="button" 
-                  className="btn-cancel"
-                  onClick={() => setEditMode(false)}
-                >
-                  Cancel
-                </button>
+              <div className="form-actions-row">
+                <button type="button" className="btn-cancel" onClick={() => setEditMode(false)}>Cancel</button>
+                <button type="submit" className="btn-save">Save Changes</button>
               </div>
             </form>
           </div>
         )}
 
-        {/* Bookings Section - Only show for non-admin users */}
-        {!isAdmin() && (
-          <div className="bookings-section">
-            <h2>My Bookings</h2>
-            {bookings.length === 0 ? (
-              <div className="no-bookings">
-                <i className="fas fa-calendar-times"></i>
-                <h3>No bookings yet</h3>
-                <p>Start exploring our amazing destinations and make your first booking!</p>
-                <a href="/" className="btn-explore">Explore Tours</a>
-              </div>
-            ) : (
-              <div className="bookings-grid">
-                {bookings.map((booking) => {
-                  // Add null checks to prevent runtime errors
-                  if (!booking.packageId) {
-                    return (
-                      <div key={booking._id} className="booking-card error-card">
-                        <div className="booking-content">
-                          <h3>Package Not Found</h3>
-                          <p>This booking references a package that no longer exists.</p>
-                          <div className="booking-details">
-                            <div className="detail-item">
-                              <i className="fas fa-calendar"></i>
-                              <span>Booking Date: {new Date(booking.bookingDate).toLocaleDateString()}</span>
-                            </div>
-                            <div className="detail-item">
-                              <i className="fas fa-users"></i>
-                              <span>People: {booking.numberOfPeople}</span>
-                            </div>
-                            <div className="detail-item">
-                              <i className="fas fa-dollar-sign"></i>
-                              <span>Total: ${booking.totalPrice}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  }
+        {/* Dashboard Content */}
+        {!isAdmin() && !editMode && (
+          <div className="profile-content">
+            <div className="content-tabs">
+              <button 
+                className={`tab-item ${activeTab === 'bookings' ? 'active' : ''}`}
+                onClick={() => setActiveTab('bookings')}
+              >
+                <i className="fas fa-suitcase"></i> My Bookings
+              </button>
+              <button 
+                className={`tab-item ${activeTab === 'wishlist' ? 'active' : ''}`}
+                onClick={() => setActiveTab('wishlist')}
+              >
+                <i className="fas fa-heart"></i> Wishlist
+              </button>
+            </div>
 
-                  return (
-                    <div key={booking._id} className="booking-card">
-                      <div className="booking-image">
-                        <img 
-                          src={booking.packageId.image || '/placeholder-image.jpg'} 
-                          alt={booking.packageId.title || 'Package Image'} 
-                          onError={(e) => {
-                            e.target.src = '/placeholder-image.jpg';
-                          }}
-                        />
-                        <div 
-                          className="status-badge"
-                          style={{ backgroundColor: getStatusColor(booking.status) }}
-                        >
-                          {getStatusText(booking.status)}
-                        </div>
-                      </div>
-                      <div className="booking-content">
-                        <h3>{booking.packageId.title || 'Untitled Package'}</h3>
-                        <p className="booking-location">
-                          <i className="fas fa-map-marker-alt"></i>
-                          {booking.packageId.location || 'Location not specified'}
-                        </p>
-                        <div className="booking-details">
-                          <div className="detail-item">
-                            <i className="fas fa-calendar"></i>
-                            <span>Booking Date: {new Date(booking.bookingDate).toLocaleDateString()}</span>
-                          </div>
-                          <div className="detail-item">
-                            <i className="fas fa-users"></i>
-                            <span>People: {booking.numberOfPeople}</span>
-                          </div>
-                          <div className="detail-item">
-                            <i className="fas fa-dollar-sign"></i>
-                            <span>Total: ${booking.totalPrice}</span>
-                          </div>
-                          <div className="detail-item">
-                            <i className="fas fa-clock"></i>
-                            <span>Duration: {booking.duration || booking.packageId.duration || 'Not specified'}</span>
-                          </div>
-                          <div className="detail-item">
-                            <i className="fas fa-users"></i>
-                            <span>Max Group: {booking.packageId.maxGroupSize || 'Not specified'} people</span>
-                          </div>
-                        </div>
-                        {booking.specialRequests && (
-                          <div className="special-requests">
-                            <strong>Special Requests:</strong>
-                            <p>{booking.specialRequests}</p>
-                          </div>
-                        )}
-                        <div className="booking-actions">
-                          {booking.status === 'pending' && (
-                            <button 
-                              className="btn-cancel-booking"
-                              onClick={() => cancelBooking(booking._id)}
-                            >
-                              Cancel Booking
-                            </button>
-                          )}
-                          <span className="booking-date">
-                            Booked on: {new Date(booking.createdAt).toLocaleDateString()}
-                          </span>
-                        </div>
-                      </div>
+            <div className="tab-panel">
+              {activeTab === 'bookings' && (
+                <div className="bookings-list">
+                  {bookings.length === 0 ? (
+                    <div className="empty-state">
+                      <div className="empty-icon"><i className="fas fa-map-marked-alt"></i></div>
+                      <h3>No bookings yet</h3>
+                      <p>Time to start your next adventure!</p>
+                      <a href="/packages" className="btn-primary">Explore Packages</a>
                     </div>
-                  );
-                })}
-              </div>
-            )}
+                  ) : (
+                     bookings.map((booking) => {
+                      if (!booking.packageId) return null;
+                      return (
+                        <div key={booking._id} className="booking-item">
+                          <div className="booking-thumb">
+                             <img 
+                                src={booking.packageId.image || '/placeholder-image.jpg'} 
+                                alt={booking.packageId.title} 
+                                onError={(e) => { e.target.src = '/placeholder-image.jpg'; }}
+                              />
+                              <span className="booking-status-badge" style={{ background: getStatusColor(booking.status) }}>
+                                {booking.status}
+                              </span>
+                          </div>
+                          <div className="booking-info">
+                            <h3>{booking.packageId.title}</h3>
+                            <div className="booking-meta">
+                              <span><i className="far fa-calendar"></i> {new Date(booking.bookingDate).toLocaleDateString()}</span>
+                              <span><i className="far fa-user"></i> {booking.numberOfPeople} People</span>
+                              <span><i className="far fa-clock"></i> {booking.duration || booking.packageId.duration}</span>
+                            </div>
+                            <div className="booking-price">
+                              Total: <strong>${booking.totalPrice}</strong>
+                            </div>
+                          </div>
+                          <div className="booking-item-actions">
+                             {booking.status === 'pending' && (
+                                <button className="btn-outline-danger" onClick={() => cancelBooking(booking._id)}>
+                                  Cancel
+                                </button>
+                              )}
+                              <button className="btn-outline">View Details</button>
+                          </div>
+                        </div>
+                      );
+                     })
+                  )}
+                </div>
+              )}
+
+              {activeTab === 'wishlist' && (
+                <div className="wishlist-list">
+                  <div className="empty-state">
+                    <div className="empty-icon"><i className="far fa-heart"></i></div>
+                    <h3>Your wishlist is empty</h3>
+                    <p>Save packages you're interested in.</p>
+                    <a href="/packages" className="btn-primary">Explore Packages</a>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>

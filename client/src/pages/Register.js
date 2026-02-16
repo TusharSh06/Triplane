@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { authAPI } from '../services/api';
-import './Register.css';
+import './Auth.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -73,32 +73,39 @@ const Register = () => {
 
   if (checkingAdmin) {
     return (
-      <div className="register-container">
-        <div className="register-card">
-          <div className="loading-spinner"></div>
-          <p>Loading...</p>
-        </div>
+      <div className="auth-page">
+        <div className="loading-spinner"></div>
       </div>
     );
   }
 
   return (
-    <div className="register-container">
-      <div className="register-card">
-        <div className="register-header">
-          <h2>Create Account</h2>
-          <p>Join us and start your journey</p>
+    <div className="auth-full-screen-container">
+      <div className="auth-card register-card">
+        <div className="auth-header">
+          <h2>CREATE ACCOUNT</h2>
+          <p>Start your journey with us</p>
+        </div>
+
+        <button className="google-auth-btn" type="button">
+          <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" />
+          Sign up with Google
+        </button>
+
+        <div className="auth-divider">
+          <span>OR</span>
         </div>
 
         {error && (
-          <div className="error-message">
-            {error}
+          <div className="auth-error">
+            <i className="fas fa-exclamation-circle"></i>
+            <span>{error}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="register-form">
+        <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="name">Full Name</label>
+            <label htmlFor="name">FULL NAME</label>
             <input
               type="text"
               id="name"
@@ -111,7 +118,7 @@ const Register = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">EMAIL</label>
             <input
               type="email"
               id="email"
@@ -124,22 +131,23 @@ const Register = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="role">Role</label>
-            <select
-              id="role"
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              required
-              className="role-select"
-            >
-              <option value="user">User</option>
-              {!adminExists && <option value="admin">Admin</option>}
-            </select>
+            <label htmlFor="role">ROLE</label>
+            <div className="input-wrapper">
+               <select
+                id="role"
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                required
+              >
+                <option value="user">Traveler</option>
+                {!adminExists && <option value="admin">Admin</option>}
+              </select>
+            </div>
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">PASSWORD</label>
             <input
               type="password"
               id="password"
@@ -147,14 +155,14 @@ const Register = () => {
               value={formData.password}
               onChange={handleChange}
               required
-              placeholder="Enter your password"
+              placeholder="Create a password"
               minLength="6"
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
+             <label htmlFor="confirmPassword">CONFIRM PASSWORD</label>
+             <input
               type="password"
               id="confirmPassword"
               name="confirmPassword"
@@ -168,17 +176,17 @@ const Register = () => {
 
           <button 
             type="submit" 
-            className="register-btn"
+            className="auth-btn"
             disabled={loading}
           >
-            {loading ? 'Creating Account...' : 'Create Account'}
+            {loading ? 'WAIT A MOMENT...' : 'SIGN UP'}
           </button>
         </form>
 
-        <div className="register-footer">
+        <div className="auth-footer">
           <p>
             Already have an account?{' '}
-            <Link to="/login" className="login-link">
+            <Link to="/login" className="auth-link">
               Sign in here
             </Link>
           </p>

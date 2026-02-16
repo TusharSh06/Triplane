@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { packageAPI, bookingAPI } from '../services/api';
 import './PackageDetails.css';
@@ -7,11 +7,12 @@ import './PackageDetails.css';
 const PackageDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { isAuthenticated, user } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
   
   const [packageData, setPackageData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [activeTab, setActiveTab] = useState('overview');
   const [bookingForm, setBookingForm] = useState({
     numberOfPeople: 1,
     bookingDate: '',
@@ -23,13 +24,13 @@ const PackageDetails = () => {
 
   useEffect(() => {
     fetchPackageDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchPackageDetails = async () => {
     try {
       const response = await packageAPI.getPackageById(id);
       setPackageData(response.data);
-      // Set default duration
       setBookingForm(prev => ({
         ...prev,
         duration: response.data.duration
@@ -71,8 +72,7 @@ const PackageDetails = () => {
         specialRequests: bookingForm.specialRequests
       };
 
-      const response = await bookingAPI.createBooking(bookingData);
-
+      await bookingAPI.createBooking(bookingData);
       alert('Booking created successfully!');
       navigate('/');
     } catch (err) {
@@ -84,122 +84,174 @@ const PackageDetails = () => {
 
   if (loading) {
     return (
-      <div className="package-details-loading">
+      <div className="details-loading">
         <div className="loading-spinner"></div>
-        <p>Loading package details...</p>
+        <p>Loading adventure details...</p>
       </div>
     );
   }
 
-  if (error) {
+  if (error || !packageData) {
     return (
-      <div className="package-details-error">
-        <h2>Error</h2>
-        <p>{error}</p>
-        <button onClick={() => navigate('/')} className="btn-primary">
-          Back to Home
-        </button>
-      </div>
-    );
-  }
-
-  if (!packageData) {
-    return (
-      <div className="package-details-error">
+      <div className="details-error">
         <h2>Package Not Found</h2>
-        <p>The package you're looking for doesn't exist.</p>
-        <button onClick={() => navigate('/')} className="btn-primary">
-          Back to Home
-        </button>
+        <p>{error || "The package you're looking for doesn't exist."}</p>
+        <button onClick={() => navigate('/')} className="btn-primary">Back to Home</button>
       </div>
     );
   }
 
   return (
     <div className="package-details-page">
-      <div className="package-details-container">
-        <div className="package-details-content">
-          <div className="package-image-section">
-            <img src={packageData.image} alt={packageData.title} className="package-image" />
-            {packageData.featured && <div className="featured-badge">Featured</div>}
-          </div>
-          
-          <div className="package-info-section">
-            <h1 className="package-title">{packageData.title}</h1>
-            
-            <div className="package-price">
-              from <span className="price-amount">${packageData.price}</span> per person
-            </div>
-
-            <p className="package-description">{packageData.description}</p>
-
-            <div className="package-details-grid">
-              <div className="detail-item">
-                <i className="fas fa-clock"></i>
-                <h4>Duration</h4>
-                <p>{packageData.duration}</p>
-              </div>
-              <div className="detail-item">
-                <i className="fas fa-users"></i>
-                <h4>Group Size</h4>
-                <p>Max {packageData.maxGroupSize} people</p>
-              </div>
-              <div className="detail-item">
-                <i className="fas fa-mountain"></i>
-                <h4>Difficulty</h4>
-                <p>{packageData.difficulty}</p>
-              </div>
-              <div className="detail-item">
-                <i className="fas fa-map-marker-alt"></i>
-                <h4>Location</h4>
-                <p>{packageData.location}</p>
-              </div>
-            </div>
+      {/* Hero Section */}
+      <div className="details-hero" style={{ backgroundImage: `url(${packageData.image || '/placeholder-image.jpg'})` }}>
+        <div className="details-hero-overlay"></div>
+        <div className="details-hero-content container">
+          <span className="location-tag"><i className="fas fa-map-marker-alt"></i> {packageData.location}</span>
+          <h1>{packageData.title}</h1>
+          <div className="hero-meta">
+            <span><i className="far fa-clock"></i> {packageData.duration}</span>
+            <span><i className="far fa-user"></i> Max {packageData.maxGroupSize} People</span>
+            <span><i className="fas fa-mountain"></i> {packageData.difficulty}</span>
           </div>
         </div>
+      </div>
 
-        <div className="booking-section">
-          <h3 className="booking-title">Book This Tour</h3>
-          {bookingError && <div className="booking-error">{bookingError}</div>}
-          <form onSubmit={handleBookingSubmit} className="booking-form">
-                <div className="form-group">
-                  <label htmlFor="numberOfPeople">Number of People</label>
-                  <input
-                    type="number"
-                    id="numberOfPeople"
-                    name="numberOfPeople"
-                    min="1"
-                    max={packageData.maxGroupSize}
-                    value={bookingForm.numberOfPeople}
-                    onChange={handleBookingChange}
-                    required
-                  />
+      <div className="details-container container">
+        <div className="details-layout">
+          {/* Main Content */}
+          <div className="details-main">
+            {/* Tabs */}
+            <div className="details-tabs">
+              <button 
+                className={`tab-btn ${activeTab === 'overview' ? 'active' : ''}`}
+                onClick={() => setActiveTab('overview')}
+              >
+                Overview
+              </button>
+              <button 
+                className={`tab-btn ${activeTab === 'itinerary' ? 'active' : ''}`}
+                onClick={() => setActiveTab('itinerary')}
+              >
+                Itinerary
+              </button>
+              <button 
+                className={`tab-btn ${activeTab === 'reviews' ? 'active' : ''}`}
+                onClick={() => setActiveTab('reviews')}
+              >
+                Reviews (24)
+              </button>
+            </div>
+
+            <div className="tab-content">
+              {activeTab === 'overview' && (
+                <div className="overview-content animate-fade">
+                  <h3>About This Trip</h3>
+                  <p>{packageData.description}</p>
+                  
+                  <div className="highlights-grid">
+                    <div className="highlight-item">
+                      <i className="fas fa-check-circle"></i>
+                      <div>
+                        <h4>Professional Guide</h4>
+                        <p>Expert local guide throughout the trip</p>
+                      </div>
+                    </div>
+                    <div className="highlight-item">
+                      <i className="fas fa-utensils"></i>
+                      <div>
+                        <h4>Meals Included</h4>
+                        <p>Breakfast and dinner provided daily</p>
+                      </div>
+                    </div>
+                    <div className="highlight-item">
+                      <i className="fas fa-bus"></i>
+                      <div>
+                        <h4>Transport</h4>
+                        <p>Private air-conditioned vehicle</p>
+                      </div>
+                    </div>
+                    <div className="highlight-item">
+                      <i className="fas fa-camera"></i>
+                      <div>
+                        <h4>Photography</h4>
+                        <p>Scenic spots and photo opportunities</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              )}
 
-                <div className="form-group">
-                  <label htmlFor="duration">Duration</label>
-                  <select
-                    id="duration"
-                    name="duration"
-                    value={bookingForm.duration}
-                    onChange={handleBookingChange}
-                    required
-                  >
-                    <option value="">Select duration</option>
-                    <option value="3 days">3 days</option>
-                    <option value="5 days">5 days</option>
-                    <option value="7 days">7 days</option>
-                    <option value="10 days">10 days</option>
-                    <option value="14 days">14 days</option>
-                    <option value={packageData.duration}>{packageData.duration} (Recommended)</option>
-                  </select>
+              {activeTab === 'itinerary' && (
+                <div className="itinerary-content animate-fade">
+                  <h3>Trip Itinerary</h3>
+                  <div className="timeline">
+                    {[1, 2, 3].map((day) => (
+                      <div key={day} className="timeline-item">
+                        <div className="timeline-marker">{day}</div>
+                        <div className="timeline-content">
+                          <h4>Day {day}: Exploration & Adventure</h4>
+                          <p>Start the day with a hearty breakfast followed by a guided tour of the local landmarks. Afternoon free time for shopping and personal exploration. Evening cultural show and dinner.</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
+              )}
 
+              {activeTab === 'reviews' && (
+                <div className="reviews-content animate-fade">
+                  <h3>Traveler Reviews</h3>
+                  <div className="overall-rating">
+                    <div className="rating-number">4.8</div>
+                    <div className="rating-stars">
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star-half-alt"></i>
+                    </div>
+                    <p>Based on 24 reviews</p>
+                  </div>
+                  {/* Mock Reviews */}
+                  <div className="review-list">
+                    <div className="review-item">
+                      <div className="review-header">
+                        <div className="reviewer-info">
+                          <div className="reviewer-avatar">S</div>
+                          <div>
+                            <h4>Sarah Johnson</h4>
+                            <span className="review-date">Oct 2023</span>
+                          </div>
+                        </div>
+                        <div className="review-rating"><i className="fas fa-star"></i> 5.0</div>
+                      </div>
+                      <p>Absolutely amazing experience! The guide was knowledgeable and the scenery was breathtaking.</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Sidebar - Booking Widget */}
+          <div className="details-sidebar">
+            <div className="booking-widget">
+              <div className="price-header">
+                <span className="price-label">Price per person</span>
+                <div className="price-value">
+                  <span className="currency">$</span>
+                  <span className="amount">{packageData.price}</span>
+                </div>
+              </div>
+
+              {bookingError && <div className="error-message">{bookingError}</div>}
+
+              <form onSubmit={handleBookingSubmit} className="booking-form">
                 <div className="form-group">
-                  <label htmlFor="bookingDate">Preferred Date</label>
+                  <label>Date</label>
                   <input
                     type="date"
-                    id="bookingDate"
                     name="bookingDate"
                     value={bookingForm.bookingDate}
                     onChange={handleBookingChange}
@@ -209,45 +261,66 @@ const PackageDetails = () => {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="specialRequests">Special Requests (Optional)</label>
+                  <label>Travelers</label>
+                  <div className="guests-input">
+                    <button type="button" onClick={() => setBookingForm(prev => ({ ...prev, numberOfPeople: Math.max(1, prev.numberOfPeople - 1) }))}>-</button>
+                    <input
+                      type="number"
+                      name="numberOfPeople"
+                      value={bookingForm.numberOfPeople}
+                      onChange={handleBookingChange}
+                      readOnly
+                    />
+                     <button type="button" onClick={() => setBookingForm(prev => ({ ...prev, numberOfPeople: Math.min(packageData.maxGroupSize, prev.numberOfPeople + 1) }))}>+</button>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>Special Requests</label>
                   <textarea
-                    id="specialRequests"
                     name="specialRequests"
                     value={bookingForm.specialRequests}
                     onChange={handleBookingChange}
-                    rows="3"
-                    placeholder="Any special requirements or requests..."
+                    placeholder="Dietary requirements, etc."
+                    rows="2"
                   />
+                </div>
+
+                <div className="price-breakdown">
+                  <div className="breakdown-row">
+                    <span>${packageData.price} x {bookingForm.numberOfPeople} people</span>
+                    <span>${packageData.price * bookingForm.numberOfPeople}</span>
+                  </div>
+                  <div className="breakdown-row total">
+                    <span>Total</span>
+                    <span>${packageData.price * bookingForm.numberOfPeople}</span>
+                  </div>
                 </div>
 
                 <button 
                   type="submit" 
-                  className="booking-btn"
+                  className="book-now-btn"
                   disabled={bookingLoading}
                 >
                   {bookingLoading ? 'Processing...' : 'Book Now'}
                 </button>
-
-                {!isAuthenticated() && (
-                  <p style={{ textAlign: 'center', color: '#7f8c8d', marginTop: '15px', fontSize: '0.9rem' }}>
-                    Please <button 
-                      type="button" 
-                      onClick={() => navigate('/login')}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        color: '#ff6b6b',
-                        textDecoration: 'underline',
-                        cursor: 'pointer',
-                        fontWeight: '600',
-                        fontSize: '0.9rem'
-                      }}
-                    >
-                      login
-                    </button> to book this tour.
-                  </p>
-                )}
-          </form>
+              </form>
+              
+               {!isAuthenticated() && (
+                <div className="login-prompt">
+                  <p>Please <Link to="/login">login</Link> to book this tour.</p>
+                </div>
+              )}
+            </div>
+            
+            <div className="help-box">
+              <i className="fas fa-question-circle"></i>
+              <div>
+                <h4>Need Help?</h4>
+                <p>Call us at +1 (555) 123-4567</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
