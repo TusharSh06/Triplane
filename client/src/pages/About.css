@@ -13,8 +13,9 @@
 
 /* Hero Section */
 .about-hero {
-  height: 500px;
-  background-image: url('https://images.unsplash.com/photo-1527631746610-bca00a040d60?q=80&w=1920&auto=format&fit=crop');
+  height: 100vh; /* Taller hero */
+  min-height: 500px;
+  background-image: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -33,44 +34,53 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(2px);
+  background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)); /* Gradient overlay */
+  backdrop-filter: blur(0px); /* Clearer view */
 }
 
 .about-hero-content {
   position: relative;
   z-index: 2;
-  max-width: 800px;
+  max-width: 900px;
 }
 
 .about-hero h1 {
   font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 700;
-  margin-bottom: var(--spacing-sm);
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 800;
+  margin-bottom: var(--spacing-md);
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+  color: #ffffff; /* Explicit white */
+  letter-spacing: -2px;
 }
 
 .hero-subtitle {
-  font-size: 1.5rem;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-family: 'Dancing Script', cursive, sans-serif; /* If available, or stick to body */
   font-style: italic;
   margin-bottom: var(--spacing-lg);
-  color: var(--primary-color);
-  font-weight: 600;
+  color: #ffe66d; /* Bright accent yellow */
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+  display: inline-block;
 }
 
 .hero-description {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  opacity: 0.9;
+  font-size: 1.3rem;
+  line-height: 1.8;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  max-width: 700px;
+  margin: 0 auto;
+  font-weight: 500;
 }
 
 
 /* Who We Are Section */
 .about-preview-section {
   padding: var(--spacing-xxl) 0;
-  background-color: #0c121e; /* Dark background as requested */
-  color: var(--white);
+  background-color: var(--white); /* White background */
+  color: var(--dark-color);
 }
 
 .about-preview-container {
@@ -97,12 +107,12 @@
   font-size: 3rem;
   margin-bottom: var(--spacing-lg);
   line-height: 1.2;
-  color: var(--white);
+  color: var(--dark-color);
   font-family: var(--font-heading);
 }
 
 .about-preview-content p {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-color);
   margin-bottom: var(--spacing-md);
   font-size: 1.1rem;
   line-height: 1.6;
@@ -288,9 +298,12 @@
 
 .team-grid {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-wrap: nowrap; /* Force single line */
+  justify-content: center; /* Center if they fit, start if they don't (handled by margin auto if needed, but flex behavior varies) */
   gap: var(--spacing-xxl);
+  overflow-x: auto; /* Allow scrolling if screen is too narrow */
+  padding-bottom: 20px; /* Space for scrollbar */
+  -webkit-overflow-scrolling: touch;
 }
 
 .team-member {

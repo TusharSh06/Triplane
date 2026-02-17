@@ -40,70 +40,68 @@ const Login = () => {
   return (
     <div className="auth-full-screen-container">
       <div className="auth-card">
-        <div className="auth-header">
-          <h2>WELCOME BACK</h2>
-          <p>Sign in to your account</p>
+        {/* Left Side - Image */}
+        <div className="auth-card-left">
+          <div className="auth-overlay-logo">
+            <i className="fas fa-plane-departure"></i>
+          </div>
         </div>
 
-        <button className="google-auth-btn" type="button">
-          <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" />
-          Sign in with Google
-        </button>
+        {/* Right Side - Form */}
+        <div className="auth-card-right">
+          <Link to="/" className="back-link">
+            <i className="fas fa-arrow-left"></i>
+          </Link>
 
-        <div className="auth-divider">
-          <span>OR</span>
-        </div>
-
-        {error && (
-          <div className="auth-error">
-            <i className="fas fa-exclamation-circle"></i>
-            <span>{error}</span>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="auth-form">
-          <div className="form-group">
-            <label htmlFor="email">EMAIL</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              placeholder="Enter your email"
-            />
+          <div className="auth-header">
+            <h2>Log in</h2>
+            <p>Don't have an account? <Link to="/register">Create an Account</Link></p>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="password">PASSWORD</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              placeholder="Enter your password"
-            />
+          <form onSubmit={handleSubmit} className="auth-form">
+            <div className="form-group">
+              <label htmlFor="email">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="john@example.com"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+
+            <Link to="/forgot-password" className="forgot-password">Forgot Password?</Link>
+
+            <button type="submit" className="auth-btn">
+              {loading ? 'Logging in...' : 'Log in'}
+            </button>
+          </form>
+
+          <div className="auth-divider">
+            <span>or</span>
           </div>
 
-          <button 
-            type="submit" 
-            className="auth-btn"
-            disabled={loading}
-          >
-            {loading ? <span className="loading-dots">SIGNING IN</span> : 'SIGN IN'}
-          </button>
-        </form>
-
-        <div className="auth-footer">
-          <p>
-            Don't have an account?{' '}
-            <Link to="/register" className="auth-link">
-              Sign up here
-            </Link>
-          </p>
+          <div className="social-login">
+            <button className="social-btn" type="button">
+              {/* Using a Google Icon image or keeping the FontAwesome one but ensuring authorized brand colors if needed. User asked for "good looking". Standard Google button is usually white with colored 'G' or blue. I'll stick to the cleanliness of the update in CSS. */}
+              <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" style={{width: '24px', height: '24px'}} />
+              Continue with Google
+            </button>
+          </div>
         </div>
       </div>
     </div>

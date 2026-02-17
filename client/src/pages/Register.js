@@ -82,114 +82,128 @@ const Register = () => {
   return (
     <div className="auth-full-screen-container">
       <div className="auth-card register-card">
-        <div className="auth-header">
-          <h2>CREATE ACCOUNT</h2>
-          <p>Start your journey with us</p>
+        {/* Left Side - Image */}
+        <div className="auth-card-left">
+          <div className="auth-overlay-logo">
+            <i className="fas fa-plane-departure"></i>
+          </div>
         </div>
 
-        <button className="google-auth-btn" type="button">
-          <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" />
-          Sign up with Google
-        </button>
+        {/* Right Side - Form */}
+        <div className="auth-card-right">
+          <Link to="/" className="back-link">
+            <i className="fas fa-arrow-left"></i>
+          </Link>
 
-        <div className="auth-divider">
-          <span>OR</span>
-        </div>
-
-        {error && (
-          <div className="auth-error">
-            <i className="fas fa-exclamation-circle"></i>
-            <span>{error}</span>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="auth-form">
-          <div className="form-group">
-            <label htmlFor="name">FULL NAME</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              placeholder="Enter your full name"
-            />
+          <div className="auth-header">
+            <h2>Create an Account</h2>
+            <p>Already have an account? <Link to="/login">Log in</Link></p>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="email">EMAIL</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              placeholder="Enter your email"
-            />
-          </div>
+          {error && <div className="auth-error">{error}</div>}
 
-          <div className="form-group">
-            <label htmlFor="role">ROLE</label>
-            <div className="input-wrapper">
-               <select
-                id="role"
-                name="role"
-                value={formData.role}
+          <form onSubmit={handleSubmit} className="auth-form">
+            <div className="form-group">
+              <label htmlFor="name">First Name</label> {/* Keeping as Name for now but labeled styling */}
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
                 onChange={handleChange}
                 required
-              >
-                <option value="user">Traveler</option>
-                {!adminExists && <option value="admin">Admin</option>}
-              </select>
+                placeholder="John"
+              />
             </div>
+
+            <div className="form-group">
+              <label htmlFor="name">Full Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                placeholder="John Doe"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="email">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                placeholder="john@example.com"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                placeholder="Password"
+                minLength="6"
+              />
+            </div>
+
+            <div className="form-group">
+               <label htmlFor="confirmPassword">Confirm Password</label>
+               <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+                placeholder="Confirm Password"
+                minLength="6"
+              />
+            </div>
+
+             <div className="form-group full-width">
+                <label htmlFor="role">Role</label>
+                 <select
+                  id="role"
+                  name="role"
+                  value={formData.role}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="user">Traveler</option>
+                  {!adminExists && <option value="admin">Admin</option>}
+                </select>
+            </div>
+
+            <div className="terms-checkbox">
+              <input type="checkbox" id="terms" required />
+              <label htmlFor="terms">I agree to the <Link to="/terms">Terms & Condition</Link></label>
+            </div>
+
+            <button type="submit" className="auth-btn">
+              {loading ? 'Creating Account...' : 'Create Account'}
+            </button>
+          </form>
+
+          <div className="auth-divider">
+            <span>or</span>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="password">PASSWORD</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              placeholder="Create a password"
-              minLength="6"
-            />
+          <div className="social-login">
+            <button className="social-btn" type="button">
+              <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" style={{width: '24px', height: '24px'}} />
+              Sign up with Google
+            </button>
           </div>
-
-          <div className="form-group">
-             <label htmlFor="confirmPassword">CONFIRM PASSWORD</label>
-             <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-              placeholder="Confirm your password"
-              minLength="6"
-            />
-          </div>
-
-          <button 
-            type="submit" 
-            className="auth-btn"
-            disabled={loading}
-          >
-            {loading ? 'WAIT A MOMENT...' : 'SIGN UP'}
-          </button>
-        </form>
-
-        <div className="auth-footer">
-          <p>
-            Already have an account?{' '}
-            <Link to="/login" className="auth-link">
-              Sign in here
-            </Link>
-          </p>
         </div>
       </div>
     </div>
