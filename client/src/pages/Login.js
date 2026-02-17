@@ -58,6 +58,8 @@ const Login = () => {
             <p>Don't have an account? <Link to="/register">Create an Account</Link></p>
           </div>
 
+          {error && <div className="auth-error">{error}</div>}
+
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
               <label htmlFor="email">Email Address</label>
