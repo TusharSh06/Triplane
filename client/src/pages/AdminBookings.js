@@ -33,7 +33,7 @@ const AdminBookings = () => {
   const updateBookingStatus = async (bookingId, status) => {
     try {
       setError(''); // Clear any previous errors
-      const response = await bookingAPI.updateBookingStatus(bookingId, status);
+      await bookingAPI.updateBookingStatus(bookingId, status);
       
       // Refresh the bookings list
       await fetchAllBookings();

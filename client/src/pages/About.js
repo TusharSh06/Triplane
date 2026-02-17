@@ -135,8 +135,8 @@ const About = () => {
               <h3>Tushar Sharma</h3>
               <p className="member-role">Lead Photographer</p>
               <div className="member-social">
-                <a href="#" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
-                <a href="#" aria-label="Twitter"><i className="fab fa-twitter"></i></a>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i className="fab fa-twitter"></i></a>
               </div>
             </div>
             <div className="team-member">
@@ -146,8 +146,8 @@ const About = () => {
               <h3>Rudraksh Singh</h3>
               <p className="member-role">Travel Coordinator</p>
               <div className="member-social">
-                <a href="#" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
-                <a href="#" aria-label="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
               </div>
             </div>
             <div className="team-member">
@@ -157,8 +157,8 @@ const About = () => {
               <h3>Arun</h3>
               <p className="member-role">Creative Director</p>
               <div className="member-social">
-                <a href="#" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
-                <a href="#" aria-label="Twitter"><i className="fab fa-twitter"></i></a>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i className="fab fa-twitter"></i></a>
               </div>
             </div>
             <div className="team-member">
@@ -168,8 +168,8 @@ const About = () => {
               <h3>Tushar Kadian</h3>
               <p className="member-role">Operations Manager</p>
               <div className="member-social">
-                <a href="#" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
-                <a href="#" aria-label="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
               </div>
             </div>
             <div className="team-member">
@@ -179,8 +179,8 @@ const About = () => {
               <h3>Anirudh</h3>
               <p className="member-role">Customer Experience</p>
               <div className="member-social">
-                <a href="#" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
-                <a href="#" aria-label="Twitter"><i className="fab fa-twitter"></i></a>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i className="fab fa-twitter"></i></a>
               </div>
             </div>
           </div>

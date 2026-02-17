@@ -22,7 +22,7 @@ const Navigation = () => {
   }, []);
 
   // Check if we are on the home page
-  const isHomePage = location.pathname === '/';
+
 
   const handleLogout = () => {
     logout();
